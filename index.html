@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			#box{
+				width: 200px;
+				height: 200px;
+				position: relative;
+				top: 200px;
+				left: 30%;
+				transform-style: preserve-3d;
+				transform: perspective(800px) rotateX(-35deg) rotateY(30deg);
+			}
+			#box div{
+				width: 200px;
+				height: 200px;
+				text-align: center;
+				line-height: 200px;
+				border-radius: 10%;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+			.front{
+				backface-visibility: visible;
+				transform: translateZ(100px);
+				background: gold;
+			}
+			.back{
+				transform: translateZ(-100px);
+				background: peru;
+			}
+			.left{
+				transform: rotateY(-90deg) translateZ(100px);
+				background: blue;
+			}
+			.right{
+				transform: rotateY(90deg) translateZ(100px);
+				background: brown;
+			}
+            .top{
+				transform: rotateX(90deg) translateZ(100px);
+				background: chartreuse;
+			}
+			.bottom{
+				transform: rotateX(-90deg) translateZ(100px);
+				background: aqua;
+			}
+
+		</style>
+			<script>
+			onload = function(){
+				var box = document.querySelector("#box");
+				var anglex = -35;
+				var angley = 30;
+				document.onmousedown = function(evt){
+					var e = evt||event;
+					var startx = e.clientX;
+					var starty = e.clientY;
+					document.onmousemove = function(evt){
+						var e = evt||event;
+						var endx = e.clientX;
+					    var endy = e.clientY;
+
+					anglex -= (endy - starty)*0.2;
+					angley += (endx - startx)*0.2;
+
+					// 改变.album的transform属性
+					box.style.transform = 'perspective(1600px) rotateX('+anglex+'deg) rotateY('+angley+'deg)';
+					    //阻止冒泡
+					    e.preventDefault()
+					    
+					    startx = endx;
+					    starty = endy;
+					}
+					document.onmouseup = function(){
+						document.onmousemove = null;
+					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<div id="box">
+			<div class="front">front</div>
+			<div class="back">back</div>
+			<div class="left">left</div>
+			<div class="right">right</div>
+			<div class="top">top</div>
+			<div class="bottom">bottom</div>
+		</div>
+	</body>
+</html>
